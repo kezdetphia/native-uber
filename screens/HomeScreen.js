@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Image,SafeAreaView,Text,View } from "react-native";
+import NavOptions from "../components/NavOptions";
 
 export default function HomeScreen() {
   return (
@@ -13,6 +14,7 @@ export default function HomeScreen() {
         uri: "https://links.papareact.com/gzs",
       }}
       />
+      <NavOptions/>
       </View>
     </SafeAreaView>
   );
