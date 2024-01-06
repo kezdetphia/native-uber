@@ -1,6 +1,8 @@
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import React from "react";
 import {Icon} from "react-native-elements";
+import { useDispatch } from "react-redux";
+import { setOrigin } from "../slices/navSlice";
 
 const data = [
   {
@@ -18,27 +20,29 @@ const data = [
 ];
 
 export default function NavFavourites() {
+
+  const dispatch = useDispatch()
+
   return (
     <FlatList
-    ItemSeparatorComponent={()=>(
-      <View className='bg-gray-200 h-0.5' >
-
-      </View>
-    )}
+      ItemSeparatorComponent={() => <View className="bg-gray-200 h-0.5"></View>}
       data={data}
       keyExtractor={(item) => item.id}
       renderItem={({ item: { location, destination, icon } }) => (
-        <TouchableOpacity className='flex-row items-center p-5'>
+        <TouchableOpacity
+          className="flex-row items-center p-5"
+          
+        >
           <Icon
-          className='mr-4 rounded-full bg-gray-300 p-3'
+            className="mr-4 rounded-full bg-gray-300 p-3"
             name={icon}
             type="ionicon"
             color="white"
             size={18}
           />
           <View>
-            <Text className='font-semibold text-lg'>{location}</Text>
-            <Text className='text-gray-500' >{destination}</Text>
+            <Text className="font-semibold text-lg">{location}</Text>
+            <Text className="text-gray-500">{destination}</Text>
           </View>
         </TouchableOpacity>
       )}
