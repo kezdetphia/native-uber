@@ -12,7 +12,7 @@ export default function MapScreen() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <View className="h-full ">
+    <View>
       <View className="h-1/2 ">
         <Map />
       </View>

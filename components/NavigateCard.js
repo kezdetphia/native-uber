@@ -3,41 +3,47 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { GOOGLE_MAPS_APIKEY } from "@env";
+import { useDispatch } from "react-redux";
+import { setDestination } from "../slices/navSlice";
+import { useNavigation } from "@react-navigation/native";
 
 export default function NavigateCard() {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.text}>Good Morning, Mark</Text>
-      <View style={styles.border}>
+    <SafeAreaView className="bg-white flex-1">
+      <Text className="text-center pb-5  text-xl">Good Morning, Mark</Text>
+      <View className=" flex-shrink">
         <View>
           <GooglePlacesAutocomplete
+            onPress={(data, details = null) => {
+              dispatch(
+                setDestination({
+                  location: details.geometry.location,
+                  description: data.description,
+                })
+              );
+
+              navigation.navigate("RideOptionsCard");
+            }}
             styles={toInputBoxStyles}
+            fetchDetails={true}
+            returnKeyType={"search"}
             placeholder="Where to?"
+            enablePoweredByContainer={false}
             debounce={400}
             nearbyPlacesAPI="GooglePlacesSearch"
+            query={{
+              key: GOOGLE_MAPS_APIKEY,
+              language: "en",
+            }}
           />
         </View>
       </View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
-  text: {
-    textAlign: "center",
-    paddingTop: 20,
-    fontSize: 20,
-  },
-  border: {
-    borderTopWidth: 1,
-    borderTopColor: "gray",
-    flex: 1,
-  },
-});
 
 const toInputBoxStyles = StyleSheet.create({
   container: {
