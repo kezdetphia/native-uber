@@ -12,24 +12,30 @@ export default function App() {
   const Stack = createNativeStackNavigator();
   return (
     <Provider store={store}>
-      <NavigationContainer> 
-        <SafeAreaProvider>    
+      <NavigationContainer>
+        <SafeAreaProvider>
           <KeyboardAvoidingView
-          behavior={Platform.OS ==='ios' ? 'padding' : 'height'}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? -64:0}
-          className='flex-1'>
-          
-
-
-          <Stack.Navigator>  
-            <Stack.Screen name="HomeScreen" component={HomeScreen} options={{
-              headerShown:false
-            }} />
-            <Stack.Screen name="MapScreen" component={MapScreen} options={{
-              headerShown:false
-            }} />
-          </Stack.Navigator>
-            </KeyboardAvoidingView>
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0}
+            className="flex-1"
+          >
+            <Stack.Navigator>
+              <Stack.Screen
+                name="HomeScreen"
+                component={HomeScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="MapScreen"
+                component={MapScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
+            </Stack.Navigator>
+          </KeyboardAvoidingView>
         </SafeAreaProvider>
       </NavigationContainer>
     </Provider>

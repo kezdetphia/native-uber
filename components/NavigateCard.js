@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { setDestination } from "../slices/navSlice";
 import { useNavigation } from "@react-navigation/native";
 import NavFavourites from "./NavFavourites";
+import { Icon } from "react-native-elements";
 
 export default function NavigateCard() {
   const dispatch = useDispatch();
@@ -41,12 +42,21 @@ export default function NavigateCard() {
             }}
           />
         </View>
-        <NavFavourites/>
+        <NavFavourites />
       </View>
-      <View>
-        <TouchableOpacity>
-          <Icon name='car' type='font-awesome' color='white' size={16} />
-          <Text></Text>
+      <View className="flex-row bg-white justify-evenly pt-2 my-auto border-t border-gray-100">
+        <TouchableOpacity onPress={()=> navigation.navigate("RideOptionsCard")} className="flex flex-row justify-between bg-black w-24 px-4 py-3 rounded-full">
+          <Icon name="car" type="font-awesome" color="white" size={16} />
+          <Text className="text-white text-center ">Rides</Text>
+        </TouchableOpacity>
+        <TouchableOpacity className="flex flex-row justify-between  w-24 px-4 py-3 rounded-full">
+          <Icon
+            name="fast-food-outline"
+            type="ionicon"
+            color="black"
+            size={16}
+          />
+          <Text className=" text-center ">Rides</Text>
         </TouchableOpacity>
       </View>
     </View>
