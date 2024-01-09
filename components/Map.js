@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import MapView, { Marker } from "react-native-maps";
-import { selectDestination, selectOrigin } from "../slices/navSlice";
-import { useSelector } from "react-redux";
+import {
+  selectDestination,
+  selectOrigin,
+  setTravelTimeInformation,
+} from "../slices/navSlice";
+import { useDispatch, useSelector } from "react-redux";
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_APIKEY } from "@env";
 
@@ -9,14 +13,33 @@ export default function Map() {
   const origin = useSelector(selectOrigin);
   const destination = useSelector(selectDestination);
   const mapRef = useRef(null);
+  const dispatch = useDispatch();
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!origin || !destination) return;
-    //zoom and fit to markers
-    mapRef.current.fitToSuppliedMarkers(['origin', 'destination'], {
-      edgePadding: {top:50, right:50, bottom:50, left:50}
-    })
-  },[origin, destination])
+
+    const getTraveltime = async () => {
+      try {
+        const res = await fetch(
+          `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${origin.description}&destinations=${destination.description}&key=${GOOGLE_MAPS_APIKEY}`
+        );
+
+        if (!res.ok) {
+          throw new Error("Network response was not ok.");
+        }
+
+        const json = await res.json();
+        const travelInfo = json.rows[0].elements[0];
+
+        console.log(travelInfo);
+        dispatch(setTravelTimeInformation(travelInfo));
+      } catch (error) {
+        console.error("Error fetching travel time:", error);
+      }
+    };
+
+    getTraveltime();
+  }, [origin, destination, GOOGLE_MAPS_APIKEY]);
 
   return (
     <MapView
