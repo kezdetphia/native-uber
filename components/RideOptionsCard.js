@@ -6,6 +6,7 @@ import {
   Alert,
   FlatList,
   Image,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import { Icon } from "react-native-elements";
@@ -51,16 +52,18 @@ const RideOptionsCard = () => {
           <Icon name="chevron-left" type="fontawesome " />
         </TouchableOpacity>
         <View className="flex-1 justify-center items-center">
-          <Text className="text-center text-xl">Select a Ride - {travelTImeInformation?.distance.text}</Text>
+          <Text className="text-center text-xl">Select a Ride - {travelTImeInformation?.distance?.text}</Text>
         </View>
       </View>
+      <ScrollView>
+
       <FlatList
         data={data}
         keyExtractor={(item)=> item.id}
         renderItem={({ item: {id,title,multiplier,image}, item }) => (
           <TouchableOpacity
-            onPress={() => setSelected(item)}
-            className={`flex-row items-center justify-between px-3 ${id === selected?.id && 'bg-gray-200'} `}
+          onPress={() => setSelected(item)}
+          className={`flex-row items-center py-auto justify-between px-3 ${id === selected?.id && 'bg-gray-200'} `}
           >
             <Image
               style={{
@@ -69,28 +72,29 @@ const RideOptionsCard = () => {
                 resizeMode: "contain",
               }}
               source={{ uri: image }}
-            />
+              />
             <View className="-ml-6">
               <Text className="text-lg font-semibold">{title}</Text>
-              <Text>{travelTImeInformation?.duration.text} Travel Time</Text>
+              <Text>{travelTImeInformation?.duration?.text} Travel Time</Text>
             </View>
             <Text className="text-xl">
               {new Intl.NumberFormat('en-us',{
                 style: 'currency',
                 currency:'USD'
               }).format(
-                (travelTImeInformation?.duration.value * SURGE_CHARGE_RATE * multiplier) / 100 
-              )
+                (travelTImeInformation?.duration?.value * SURGE_CHARGE_RATE * multiplier) / 100 
+                )
               }
             </Text>
           </TouchableOpacity>
         )}
-      />
-      <SafeAreaView>
+        />
+        </ScrollView>
+      <View className='mt-auto border-t border-gray-200'>
         <TouchableOpacity disabled={!selected} className={`bg-black py-3 m-3 ${!selected && 'bg-gray-300'}` }>
           <Text className='text-center text-white text-xl'>Choose {selected?.title ? selected.title : 'a car'}  </Text>
         </TouchableOpacity>
-      </SafeAreaView>
+      </View>
     </SafeAreaView>
   );
 };
