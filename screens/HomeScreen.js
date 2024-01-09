@@ -6,12 +6,14 @@ import { GOOGLE_MAPS_APIKEY } from "@env";
 import { useDispatch } from "react-redux";
 import { setDestination, setOrigin } from "../slices/navSlice";
 import NavFavourites from "../components/NavFavourites";
+import { StatusBar } from "expo-status-bar";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
 
   return (
     <SafeAreaView>
+      <StatusBar barStyle="dark-content" />
       <View className="p-5">
         <Image
           style={{ width: 100, height: 100, resizeMode: "contain" }}
@@ -34,8 +36,8 @@ export default function HomeScreen() {
                 location: details.geometry.location,
                 description: data.description,
               })
-            )
-            dispatch(setDestination(null))
+            );
+            dispatch(setDestination(null));
           }}
           fetchDetails={true}
           returnKeyType={"search"}
@@ -50,7 +52,7 @@ export default function HomeScreen() {
         />
 
         <NavOptions />
-        <NavFavourites/>
+        <NavFavourites />
       </View>
     </SafeAreaView>
   );
